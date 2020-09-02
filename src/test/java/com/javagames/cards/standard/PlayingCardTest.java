@@ -64,12 +64,4 @@ public class PlayingCardTest {
         assertThat(aceOfClubs.hasSameValue(aceOfSpades)).isFalse();
     }
 
-    @Test
-    public void testNaturalOrdering() {
-        // Given
-        
-        // When
-
-        // Then
-    }
 }
