@@ -1,6 +1,7 @@
 package com.javagames.games;
 
 import com.javagames.Deck;
+import com.javagames.Game;
 import com.javagames.Player;
 import com.javagames.cards.standard.PlayingCard;
 

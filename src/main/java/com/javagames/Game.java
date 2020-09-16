@@ -1,4 +1,4 @@
-package com.javagames.games;
+package com.javagames;
 
 import com.javagames.Player;
 
