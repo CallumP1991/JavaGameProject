@@ -1,20 +1,23 @@
 package com.javagames;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A deck of cards.
  */
-public class Deck {
+public class Deck<T extends Card> {
 
-    private List<Card> cards;
+    private List<T> cards;
 
     /**
      * Creates a Deck of cards.
      *
      * @param cards the cards.
      */
-    public Deck(final List<Card> cards) {
+    public Deck(final List<T> cards) {
         this.cards = (cards == null || cards.isEmpty()) ? new ArrayList<>() : new ArrayList<>(cards);
     }
 
@@ -36,7 +39,7 @@ public class Deck {
      * Cuts the deck the specified number of times.
      * @param numberOfCuts the number of cuts.
      */
-    public List<Deck> cut(int numberOfCuts) throws JavaGameException {
+    public List<Deck<T>> cut(int numberOfCuts) throws JavaGameException {
         if (this.cards.isEmpty())
             return new ArrayList<>();
         if (numberOfCuts > this.cards.size())
@@ -50,13 +53,13 @@ public class Deck {
      * @param decksToMake the number of decks.
      * @return the Deck cuts.
      */
-    private List<Deck> cutHelper(int decksToMake) {
+    private List<Deck<T>> cutHelper(int decksToMake) {
         if (decksToMake == 0)
             return new ArrayList<>();
         // For uneven cuts of a deck. Start to add extra cards to cuts until the division is even.
         int cardsToDraw = (int) Math.ceil(this.cards.size() / (double)(decksToMake));
-        Deck deckCut = new Deck(draw(cardsToDraw));
-        List<Deck> decks = cutHelper(decksToMake - 1);
+        Deck<T> deckCut = new Deck<>(draw(cardsToDraw));
+        List<Deck<T>> decks = cutHelper(decksToMake - 1);
         decks.add(deckCut);
         return decks;
     }
@@ -66,20 +69,20 @@ public class Deck {
      *
      * @return the first card from the top of the Deck.
      */
-    public final List<Card> draw() {
+    public final List<T> draw() {
         return draw(1);
     }
 
 
-    public final List<Card> draw(final int numberOfCards) {
+    public final List<T> draw(final int numberOfCards) {
         if (numberOfCards < 0)
             throw new IllegalArgumentException("Cannot draw a negative number of cards from the deck.");
         if (numberOfCards >= this.cards.size()) {
-            final ArrayList<Card> drawnCards = new ArrayList<>(this.cards);
+            final ArrayList<T> drawnCards = new ArrayList<>(this.cards);
             this.cards = new ArrayList<>();
             return drawnCards;
         }
-        final List<Card> drawnCards = this.cards.subList(0, numberOfCards);
+        final List<T> drawnCards = this.cards.subList(0, numberOfCards);
         this.cards = this.cards.subList(numberOfCards, this.cards.size());
         return drawnCards;
     }
@@ -89,8 +92,8 @@ public class Deck {
      *
      * @param cards the cards.
      */
-    public void addCardsToTop(final List<Card> cards) {
-        List<Card> newCards = new ArrayList<>();
+    public void addCardsToTop(final List<T> cards) {
+        List<T> newCards = new ArrayList<>();
         newCards.addAll(cards);
         newCards.addAll(this.cards);
         this.cards = newCards;
@@ -101,7 +104,7 @@ public class Deck {
      *
      * @param card the cards.
      */
-    public void addCardsToBottom(final List<Card> card) {
+    public void addCardsToBottom(final List<T> card) {
         cards.addAll(card);
     }
 
@@ -114,18 +117,25 @@ public class Deck {
         return this.cards.size();
     }
 
+    /**
+     * Checks whether this deck is empty.
+     *
+     * @return {@literal true} if this deck is empty, else {@literal false}.
+     */
+    public boolean isEmpty() {
+        return this.cards.isEmpty();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Deck deck = (Deck) o;
-        return this.cards.equals(deck.cards);
+        Deck<?> deck = (Deck<?>) o;
+        return Objects.equals(cards, deck.cards);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(cards);
     }
-
-
 }

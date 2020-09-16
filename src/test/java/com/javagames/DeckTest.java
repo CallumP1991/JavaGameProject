@@ -28,14 +28,14 @@ public class DeckTest {
         cards.add(new Card("12"));
     }
 
-    private Deck sortedDeck() {
-        return new Deck(cards);
+    private Deck<Card> sortedDeck() {
+        return new Deck<>(cards);
     }
 
     @Test
     public void shuffleTest() {
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         // When
         // Shuffle twice to make the odds of getting the ordered combination 1 / 229,442,532,802,560,000
         deck.shuffle();
@@ -47,7 +47,7 @@ public class DeckTest {
     @Test
     public void shuffleEmptyDeckTest() {
         // Given
-        final Deck deck = new Deck();
+        final Deck<Card> deck = new Deck();
         // When
         deck.shuffle();
         // Then
@@ -58,7 +58,7 @@ public class DeckTest {
     public void drawCardTest() {
 
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         // When
         List<Card> drawnCards = deck.draw();
 
@@ -72,7 +72,7 @@ public class DeckTest {
     @Test
     public void drawZeroCards() {
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         // When
         final List<Card> drawnCards = deck.draw(0);
         // Then
@@ -82,7 +82,7 @@ public class DeckTest {
     @Test(expected = IllegalArgumentException.class)
     public void drawNegativeCards() {
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         // When
         try {
             deck.draw(-1);
@@ -95,7 +95,7 @@ public class DeckTest {
     @Test
     public void drawSingleCard() {
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         // When
         final List<Card> draw = deck.draw(1);
         // Then
@@ -108,7 +108,7 @@ public class DeckTest {
     public void drawMultipleCardsTest() {
 
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         // When
         List<Card> cards = deck.draw(2);
 
@@ -125,7 +125,7 @@ public class DeckTest {
     public void testDrawCardsFromEmptyDeck() {
 
         // Given
-        Deck deck = new Deck();
+        Deck<Card> deck = new Deck();
 
         // When
         List<Card> drawnCards = deck.draw();
@@ -139,7 +139,7 @@ public class DeckTest {
     public void testDepleteDeckByDrawing() {
 
         // Given
-        Deck deck = sortedDeck();
+        Deck<Card> deck = sortedDeck();
         final int numberOfCards = deck.size();
 
         // When
@@ -154,7 +154,7 @@ public class DeckTest {
     public void testDepleteDeckByDrawingTooManyCards() {
 
         // Given
-        Deck deck = sortedDeck();
+        Deck<Card> deck = sortedDeck();
         final int numberOfCards = deck.size();
 
         // When
@@ -167,13 +167,13 @@ public class DeckTest {
 
     @Test
     public void cutEquallyDeckInHalf() throws JavaGameException {
-        Deck deck = sortedDeck();
+        Deck<Card> deck = sortedDeck();
         assertThat(deck.size()).isEqualTo(12);
 
-        List<Deck> decks = deck.cut(1);
+        List<Deck<Card>> decks = deck.cut(1);
 
         assertThat(decks.size()).isEqualTo(2);
-        for (Deck cutDeck : decks) {
+        for (Deck<Card> cutDeck : decks) {
             assertThat(cutDeck.size()).isEqualTo(6);
         }
         assertThat(decks.get(0)).isNotEqualTo(decks.get(1));
@@ -182,7 +182,7 @@ public class DeckTest {
     @Test
     public void cutEmptyDeck() throws JavaGameException {
         // Given
-        Deck deck = new Deck();
+        Deck<Card> deck = new Deck();
         // When
         deck.cut(1);
         // Then
@@ -190,15 +190,15 @@ public class DeckTest {
 
     @Test
     public void cutEquallyDeckInThirds() throws JavaGameException {
-        Deck deck = sortedDeck();
+        Deck<Card> deck = sortedDeck();
         assertThat(deck.size()).isEqualTo(12);
 
-        List<Deck> decks = deck.cut(2);
+        List<Deck<Card>> decks = deck.cut(2);
         assertThat(decks).hasSize(3);
         assertThat(decks.get(0).size()).isEqualTo(4);
         assertThat(decks.get(1).size()).isEqualTo(4);
         assertThat(decks.get(2).size()).isEqualTo(4);
-        // Check that each deck cut is not equal to anything other cut.
+        // Check that each deck<Card cut is not equal to anything other cut.
         for (int i = 0; i < decks.size(); i++)
             for (int j = i + 1; j < decks.size(); j++)
                 assertThat(decks.get(i)).isNotEqualTo(decks.get(j));
@@ -207,11 +207,11 @@ public class DeckTest {
 
     @Test
     public void cutUnequallyDeckInThirds() throws JavaGameException {
-        Deck deck = sortedDeck();
+        Deck<Card> deck = sortedDeck();
         deck.draw();
         assertThat(deck.size()).isEqualTo(11);
 
-        List<Deck> decks = deck.cut(2);
+        List<Deck<Card>> decks = deck.cut(2);
         assertThat(decks).hasSize(3);
         assertThat(decks.get(0).size()).isEqualTo(3);
         assertThat(decks.get(1).size()).isEqualTo(4);
@@ -223,10 +223,10 @@ public class DeckTest {
 
     @Test
     public void cutUnequallyDeckInFifths() throws JavaGameException {
-        Deck deck = sortedDeck();
+        Deck<Card> deck = sortedDeck();
         assertThat(deck.size()).isEqualTo(12);
 
-        List<Deck> decks = deck.cut(4);
+        List<Deck<Card>> decks = deck.cut(4);
         assertThat(decks).hasSize(5);
         assertThat(decks.get(0).size()).isEqualTo(2);
         assertThat(decks.get(1).size()).isEqualTo(2);
@@ -240,11 +240,11 @@ public class DeckTest {
 
     @Test
     public void cutUnequallyDeckInHalf() throws JavaGameException {
-        Deck deck = sortedDeck();
+        Deck<Card> deck = sortedDeck();
         deck.draw();
         assertThat(deck.size()).isEqualTo(11);
 
-        List<Deck> decks = deck.cut(1);
+        List<Deck<Card>> decks = deck.cut(1);
         assertThat(decks).hasSize(2);
         assertThat(decks.get(1).size()).isEqualTo(6);
         assertThat(decks.get(0).size()).isEqualTo(5);
@@ -255,9 +255,9 @@ public class DeckTest {
 
     @Test
     public void testShuffleIsNotDeterministic() {
-        final Deck orderedDeck = sortedDeck();
-        final Deck deck1 = sortedDeck();
-        final Deck deck2 = sortedDeck();
+        final Deck<Card> orderedDeck = sortedDeck();
+        final Deck<Card> deck1 = sortedDeck();
+        final Deck<Card> deck2 = sortedDeck();
         assertThat(deck2).isEqualTo(deck1);
         assertThat(deck1).isEqualTo(deck2);
         assertThat(deck1).isEqualTo(orderedDeck);
@@ -276,7 +276,7 @@ public class DeckTest {
     @Test
     public void testAddCardsToTheBottomOfTheDeck() {
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         final int originalDeckSize = deck.size();
         final List<Card> cardsToAdd = Arrays.asList(new Card("13"), new Card("14"));
         // When
@@ -292,7 +292,7 @@ public class DeckTest {
     @Test
     public void testAddCardsToTheTopOfTheDeck() {
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         final int originalDeckSize = deck.size();
         final List<Card> cardsToAdd = Arrays.asList(new Card("13"), new Card("14"));
         // When
@@ -306,7 +306,7 @@ public class DeckTest {
     @Test
     public void testAddZeroCardsToTop() {
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         final int originalDeckSize = deck.size();
         final List<Card> cardsToAdd = Collections.emptyList();
         // When
@@ -318,7 +318,7 @@ public class DeckTest {
     @Test
     public void testAddZeroCardsToBottom() {
         // Given
-        final Deck deck = sortedDeck();
+        final Deck<Card> deck = sortedDeck();
         final int originalDeckSize = deck.size();
         final List<Card> cardsToAdd = Collections.emptyList();
         // When
