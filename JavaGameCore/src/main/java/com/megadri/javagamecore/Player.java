@@ -1,4 +1,4 @@
-package javagames;
+package com.megadri.javagamecore;
 
 import org.apache.commons.lang3.Validate;
 
@@ -59,7 +59,7 @@ public class Player {
      * @param numberOfCardsToDraw the number of cards to be draw.
      * @return the number of cards actually drawn.
      */
-    public int drawCards(final Deck deck, int numberOfCardsToDraw) {
+    public int drawCards(final Deck<? extends Card> deck, int numberOfCardsToDraw) {
         return this.hand.drawFromDeck(deck, numberOfCardsToDraw);
     }
 

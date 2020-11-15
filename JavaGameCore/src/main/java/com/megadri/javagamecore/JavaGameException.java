@@ -1,4 +1,4 @@
-package javagames;
+package com.megadri.javagamecore;
 
 public class JavaGameException extends Exception {
 

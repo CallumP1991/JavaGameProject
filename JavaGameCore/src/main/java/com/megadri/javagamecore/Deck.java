@@ -1,4 +1,4 @@
-package javagames;
+package com.megadri.javagamecore;
 
 import java.util.ArrayList;
 import java.util.Collections;
