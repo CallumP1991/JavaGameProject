@@ -1,6 +1,4 @@
-package com.javagames;
-
-import com.javagames.Player;
+package javagames;
 
 import java.util.List;
 

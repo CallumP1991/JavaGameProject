@@ -1,4 +1,4 @@
-package com.javagames;
+package javagames;
 
 import org.apache.commons.lang3.Validate;
 

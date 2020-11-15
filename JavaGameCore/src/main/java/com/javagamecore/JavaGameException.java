@@ -1,4 +1,4 @@
-package com.javagames;
+package javagames;
 
 public class JavaGameException extends Exception {
 

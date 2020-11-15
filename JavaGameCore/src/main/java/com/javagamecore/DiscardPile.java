@@ -1,4 +1,4 @@
-package com.javagames;
+package javagames;
 
 import java.util.ArrayDeque;
 import java.util.Collections;
